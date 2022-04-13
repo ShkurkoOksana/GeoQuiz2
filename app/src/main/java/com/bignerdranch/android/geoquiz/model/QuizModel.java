@@ -1,4 +1,11 @@
 package com.bignerdranch.android.geoquiz.model;
 
-public class QuizModel {
+public interface QuizModel {
+    int getQuestionResId();
+
+    int getNextQuestionResId();
+
+    int getPrevQuestionResId();
+
+    boolean getTrueAnswer();
 }
