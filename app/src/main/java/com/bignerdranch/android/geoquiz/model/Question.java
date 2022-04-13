@@ -1,4 +1,4 @@
-package com.bignerdranch.android.geoquiz;
+package com.bignerdranch.android.geoquiz.model;
 
 public class Question {
     private int mTextResId;

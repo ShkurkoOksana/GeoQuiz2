@@ -1,4 +1,4 @@
-package com.bignerdranch.android.geoquiz;
+package com.bignerdranch.android.geoquiz.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.bignerdranch.android.geoquiz.R;
 
 public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
