@@ -41,36 +41,63 @@ public class QuizActivity extends AppCompatActivity {
         updateQuestion(mQuizModel.getQuestionResId());
 
         mTrueButton = findViewById(R.id.true_button);
-        mTrueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkAnswer(true);
+        mTrueButton.setOnClickListener(v -> {
+            checkAnswer(true);
+
+            mQuizModel.setQuestionAnswered(true);
+            stashTrueFalseButton(View.INVISIBLE);
+
+            if (mQuizModel.isAllQuestionAnswered()) {
+                showPercentageScore();
             }
         });
 
         mFalseButton = findViewById(R.id.false_button);
-        mFalseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkAnswer(false);
+        mFalseButton.setOnClickListener(v -> {
+            checkAnswer(false);
+
+            mQuizModel.setQuestionAnswered(false);
+            stashTrueFalseButton(View.INVISIBLE);
+
+            if (mQuizModel.isAllQuestionAnswered()) {
+                showPercentageScore();
             }
         });
 
         mNextButton = findViewById(R.id.next_button);
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateQuestion(mQuizModel.getNextQuestionResId());
-            }
+        mNextButton.setOnClickListener(v -> {
+            updateQuestion(mQuizModel.getNextQuestionResId());
+
+            stashAnsweredQuestion();
         });
 
         mPrevButton = findViewById(R.id.prev_button);
-        mPrevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateQuestion(mQuizModel.getPrevQuestionResId());
-            }
+        mPrevButton.setOnClickListener(v -> {
+            updateQuestion(mQuizModel.getPrevQuestionResId());
+
+            stashAnsweredQuestion();
         });
+    }
+
+    private void showPercentageScore() {
+        String text = "You percentage of correct answer: " + String.valueOf(mQuizModel.getPercentageOfRightQuestions());
+
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP, 0, 500);
+        toast.show();
+    }
+
+    private void stashTrueFalseButton(int invisible) {
+        mTrueButton.setVisibility(invisible);
+        mFalseButton.setVisibility(invisible);
+    }
+
+    private void stashAnsweredQuestion() {
+        if (!mQuizModel.isQuestionAnswered()) {
+            stashTrueFalseButton(View.VISIBLE);
+        } else {
+            stashTrueFalseButton(View.INVISIBLE);
+        }
     }
 
     @Override
