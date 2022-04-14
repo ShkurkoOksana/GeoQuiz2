@@ -2,7 +2,9 @@ package com.bignerdranch.android.geoquiz.model;
 
 import com.bignerdranch.android.geoquiz.R;
 
-public class QuizModelImpl implements QuizModel {
+import java.io.Serializable;
+
+public class QuizModelImpl implements QuizModel, Serializable {
     Question[] mQuestions = new Question[]{
             new Question(R.string.question_australia, true),
             new Question(R.string.question_oceans, true),

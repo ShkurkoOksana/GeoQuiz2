@@ -1,5 +1,6 @@
 package com.bignerdranch.android.geoquiz.controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.bignerdranch.android.geoquiz.model.QuizModelImpl;
 
 public class QuizActivity extends AppCompatActivity {
     public static final String TAG = "QuizActivity";
+    public static final String MODEL = "quizModel";
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -30,6 +32,10 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_quiz);
+
+        if (savedInstanceState != null) {
+            mQuizModel = (QuizModelImpl) savedInstanceState.getSerializable(MODEL);
+        }
 
         mQuestionTextView = findViewById(R.id.question_text_view);
         updateQuestion(mQuizModel.getQuestionResId());
@@ -83,6 +89,13 @@ public class QuizActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() called");
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState(Bundle) called");
+        outState.putSerializable(MODEL, mQuizModel);
     }
 
     @Override
