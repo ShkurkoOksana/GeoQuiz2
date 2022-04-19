@@ -20,6 +20,7 @@ import com.bignerdranch.android.geoquiz.model.QuizModelImpl;
 public class QuizActivity extends AppCompatActivity {
     public static final String TAG = "QuizActivity";
     public static final String MODEL = "quizModel";
+    public static final int REQUEST_CODE_CHEAT = 0;
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -75,7 +76,7 @@ public class QuizActivity extends AppCompatActivity {
                 boolean trueAnswer = mQuizModel.getTrueAnswer();
 
                 Intent intentForCheatActivity = CheatActivity.getIntent(context, trueAnswer);
-                startActivity(intentForCheatActivity);
+                startActivityForResult(intentForCheatActivity, REQUEST_CODE_CHEAT);
             }
         });
 
