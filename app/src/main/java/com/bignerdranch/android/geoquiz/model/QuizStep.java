@@ -1,6 +1,8 @@
 package com.bignerdranch.android.geoquiz.model;
 
-public class QuizStep {
+import java.io.Serializable;
+
+public class QuizStep implements Serializable {
     Question mQuestion;
     boolean isAnswered;
     boolean isAnswerCorrect;

@@ -1,6 +1,8 @@
 package com.bignerdranch.android.geoquiz.model;
 
-public class Question {
+import java.io.Serializable;
+
+public class Question implements Serializable {
     private int mTextResId;
     private boolean mAnswerTrue;
 

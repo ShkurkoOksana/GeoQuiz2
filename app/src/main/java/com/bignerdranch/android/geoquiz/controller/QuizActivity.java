@@ -3,6 +3,8 @@ package com.bignerdranch.android.geoquiz.controller;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +23,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private Button mTrueButton;
     private Button mFalseButton;
+    private Button mCheatButton;
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
     private TextView mQuestionTextView;
@@ -61,6 +64,18 @@ public class QuizActivity extends AppCompatActivity {
 
             if (mQuizModel.isAllQuestionAnswered()) {
                 showPercentageScore();
+            }
+        });
+
+        mCheatButton = findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = QuizActivity.this;
+                boolean trueAnswer = mQuizModel.getTrueAnswer();
+
+                Intent intentForCheatActivity = CheatActivity.getIntent(context, trueAnswer);
+                startActivity(intentForCheatActivity);
             }
         });
 

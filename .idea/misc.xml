@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout-land/activity_quiz.xml" value="0.125" />
-        <entry key="app/src/main/res/layout/activity_quiz.xml" value="0.32880859375000004" />
+        <entry key="app/src/main/res/layout/activity_cheat.xml" value="0.33966827392578136" />
+        <entry key="app/src/main/res/layout/activity_quiz.xml" value="0.1" />
       </map>
     </option>
   </component>

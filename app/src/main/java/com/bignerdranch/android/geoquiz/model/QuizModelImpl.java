@@ -1,5 +1,6 @@
 package com.bignerdranch.android.geoquiz.model;
 
+
 import com.bignerdranch.android.geoquiz.R;
 
 import java.io.Serializable;
