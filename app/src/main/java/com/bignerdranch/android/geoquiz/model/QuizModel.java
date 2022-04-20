@@ -10,4 +10,8 @@ public interface QuizModel {
     int getPrevQuestionResId();
 
     boolean getTrueAnswer();
+
+    void setCheating(boolean isAnswerCheating);
+
+    boolean isAnswerCheating();
 }

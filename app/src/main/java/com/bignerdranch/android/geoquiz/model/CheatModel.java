@@ -1,4 +1,13 @@
 package com.bignerdranch.android.geoquiz.model;
 
-public interface CheatModel {
+import java.io.Serializable;
+
+public interface CheatModel extends Serializable {
+    boolean isCheating();
+
+    void setCheating(boolean cheating);
+
+    boolean isAnswerTrue();
+
+    void setAnswerTrue(boolean answerTrue);
 }

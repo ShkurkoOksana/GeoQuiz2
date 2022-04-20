@@ -3,9 +3,10 @@ package com.bignerdranch.android.geoquiz.model;
 import java.io.Serializable;
 
 public class QuizStep implements Serializable {
-    Question mQuestion;
-    boolean isAnswered;
-    boolean isAnswerCorrect;
+    private Question mQuestion;
+    private boolean isAnswered;
+    private boolean isAnswerCorrect;
+    private boolean isAnswerCheating;
 
     public QuizStep(Question question, boolean isAnswered, boolean isAnswerCorrect) {
         mQuestion = question;
@@ -35,5 +36,13 @@ public class QuizStep implements Serializable {
 
     public void setAnswerCorrect(boolean answerCorrect) {
         isAnswerCorrect = answerCorrect;
+    }
+
+    public boolean isAnswerCheating() {
+        return isAnswerCheating;
+    }
+
+    public void setAnswerCheating(boolean answerCheating) {
+        isAnswerCheating = answerCheating;
     }
 }

@@ -46,7 +46,7 @@ public class QuizModelImpl implements QuizModel, Serializable {
         int countAnsweredQuestions = 0;
 
         for (QuizStep quizStep : mQuizStepList) {
-            if (quizStep.isAnswered) {
+            if (quizStep.isAnswered()) {
                 countAnsweredQuestions++;
             }
         }
@@ -94,5 +94,15 @@ public class QuizModelImpl implements QuizModel, Serializable {
     @Override
     public boolean getTrueAnswer() {
         return mQuestions[mCurrentIndex].isAnswerTrue();
+    }
+
+    @Override
+    public void setCheating(boolean isAnswerCheating) {
+        mQuizStepList.get(mCurrentIndex).setAnswerCheating(true);
+    }
+
+    @Override
+    public boolean isAnswerCheating() {
+        return mQuizStepList.get(mCurrentIndex).isAnswerCheating();
     }
 }
