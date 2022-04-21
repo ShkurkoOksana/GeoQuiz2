@@ -19,6 +19,7 @@ public class QuizModelImpl implements QuizModel, Serializable {
 
     private int mCurrentIndex = 0;
     private List<QuizStep> mQuizStepList = createQuizSteps();
+    private int maxCountCheating = 3;
 
     private List<QuizStep> createQuizSteps() {
         List<QuizStep> quizStepList = new ArrayList<>();
@@ -59,7 +60,7 @@ public class QuizModelImpl implements QuizModel, Serializable {
         int totalScore = 0;
 
         for (QuizStep quizStep : mQuizStepList) {
-            if (quizStep.isAnswerCorrect()) {
+            if (quizStep.isAnswerCorrect() && !quizStep.isAnswerCheating()) {
                 userScore++;
             }
 
@@ -104,5 +105,29 @@ public class QuizModelImpl implements QuizModel, Serializable {
     @Override
     public boolean isAnswerCheating() {
         return mQuizStepList.get(mCurrentIndex).isAnswerCheating();
+    }
+
+/*    public int getMaxCountCheating() {
+        int maxCount = 3;
+
+        for (QuizStep quizStep : mQuizStepList) {
+            if (quizStep.isAnswerCheating()) {
+                maxCount--;
+            }
+        }
+
+        return maxCount;
+    }*/
+
+    public int getMaxCountCheating() {
+        return maxCountCheating;
+    }
+
+    public void setMaxCountCheating(int maxCountCheating) {
+        this.maxCountCheating = maxCountCheating;
+    }
+
+    public void decrementCountCheating() {
+        maxCountCheating--;
     }
 }

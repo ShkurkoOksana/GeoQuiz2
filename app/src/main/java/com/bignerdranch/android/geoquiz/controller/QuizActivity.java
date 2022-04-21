@@ -1,11 +1,14 @@
 package com.bignerdranch.android.geoquiz.controller;
 
+import static android.widget.Toast.makeText;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +36,15 @@ public class QuizActivity extends AppCompatActivity {
             Intent intent = result.getData();
             if (intent != null) {
                 boolean wasCheating = intent.getBooleanExtra(CheatActivity.RESULT_EXTRA_CHEAT, false);
-                mQuizModel.setCheating(wasCheating);
+
+                if (wasCheating) {
+                    if (!mQuizModel.isAnswerCheating()) {
+                        mQuizModel.setCheating(true);
+                        mQuizModel.decrementCountCheating();
+
+                        showCheatingCondition();
+                    }
+                }
             }
         }
     }
@@ -47,6 +58,8 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mQuizModel = (QuizModelImpl) savedInstanceState.getSerializable(QUIZ_MODEL);
+
+            showCheatingCondition();
         }
 
         updateQuestion(mQuizModel.getQuestionResId());
@@ -94,12 +107,26 @@ public class QuizActivity extends AppCompatActivity {
         updateQuestion(mQuizModel.getPrevQuestionResId());
 
         stashAnsweredQuestion();
+
+        showCheatingCondition();
     }
 
     private void onClickNextButton(View v) {
         updateQuestion(mQuizModel.getNextQuestionResId());
 
         stashAnsweredQuestion();
+
+        showCheatingCondition();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void showCheatingCondition() {
+        if (mQuizModel.getMaxCountCheating() >= 1) {
+            mQuizBinding.countCheating.setText("Remain " + mQuizModel.getMaxCountCheating() + " times of cheating");
+        } else {
+            mQuizBinding.countCheating.setText("Cheating is over");
+            mQuizBinding.cheatButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void onClickCheatButton(View v) {
@@ -125,7 +152,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         }
 
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+        makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
     private void stashAnsweredQuestion() {
@@ -145,7 +172,7 @@ public class QuizActivity extends AppCompatActivity {
     private void showPercentageScore() {
         String text = "You percentage of correct answer: " + mQuizModel.getPercentageOfRightQuestions();
 
-        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        Toast toast = makeText(this, text, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, 0, 500);
         toast.show();
     }

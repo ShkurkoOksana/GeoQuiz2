@@ -3,8 +3,10 @@ package com.bignerdranch.android.geoquiz.controller;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,7 @@ public class CheatActivity extends AppCompatActivity {
         return intent;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +49,13 @@ public class CheatActivity extends AppCompatActivity {
             if (mCheatModel.isCheating()) {
                 setCheatingAnswer();
             }
-
-
         }
 
         mCheatModel.setAnswerTrue(getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false));
 
         mCheatBinding.showAnswerButton.setOnClickListener(this::onClickShowButton);
+
+        mCheatBinding.apiLevel.setText("API level " + Build.VERSION.SDK_INT);
     }
 
     @Override
