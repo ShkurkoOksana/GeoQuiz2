@@ -107,24 +107,8 @@ public class QuizModelImpl implements QuizModel, Serializable {
         return mQuizStepList.get(mCurrentIndex).isAnswerCheating();
     }
 
-/*    public int getMaxCountCheating() {
-        int maxCount = 3;
-
-        for (QuizStep quizStep : mQuizStepList) {
-            if (quizStep.isAnswerCheating()) {
-                maxCount--;
-            }
-        }
-
-        return maxCount;
-    }*/
-
     public int getMaxCountCheating() {
         return maxCountCheating;
-    }
-
-    public void setMaxCountCheating(int maxCountCheating) {
-        this.maxCountCheating = maxCountCheating;
     }
 
     public void decrementCountCheating() {

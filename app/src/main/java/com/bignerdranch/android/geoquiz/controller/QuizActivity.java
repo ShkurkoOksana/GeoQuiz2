@@ -37,15 +37,29 @@ public class QuizActivity extends AppCompatActivity {
             if (intent != null) {
                 boolean wasCheating = intent.getBooleanExtra(CheatActivity.RESULT_EXTRA_CHEAT, false);
 
-                if (wasCheating) {
-                    if (!mQuizModel.isAnswerCheating()) {
-                        mQuizModel.setCheating(true);
-                        mQuizModel.decrementCountCheating();
-
-                        showCheatingCondition();
-                    }
-                }
+                setCheatingCondition(wasCheating);
             }
+        }
+    }
+
+    private void setCheatingCondition(boolean wasCheating) {
+        if (wasCheating) {
+            if (!mQuizModel.isAnswerCheating()) {
+                mQuizModel.setCheating(true);
+                mQuizModel.decrementCountCheating();
+
+                setCheatingText();
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setCheatingText() {
+        if (mQuizModel.getMaxCountCheating() >= 1) {
+            mQuizBinding.countCheating.setText("Remain " + mQuizModel.getMaxCountCheating() + " times of cheating");
+        } else {
+            mQuizBinding.countCheating.setText("Cheating is over");
+            mQuizBinding.cheatButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -53,22 +67,32 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initQuizView();
+        initQuizModel(savedInstanceState);
+        updateViews();
+    }
+
+    private void initQuizView() {
         mQuizBinding = ActivityQuizBinding.inflate(getLayoutInflater());
         setContentView(mQuizBinding.getRoot());
-
-        if (savedInstanceState != null) {
-            mQuizModel = (QuizModelImpl) savedInstanceState.getSerializable(QUIZ_MODEL);
-
-            showCheatingCondition();
-        }
-
-        updateQuestion(mQuizModel.getQuestionResId());
 
         mQuizBinding.trueButton.setOnClickListener(this::onClickTrueButton);
         mQuizBinding.falseButton.setOnClickListener(this::onClickFalseButton);
         mQuizBinding.cheatButton.setOnClickListener(this::onClickCheatButton);
         mQuizBinding.prevButton.setOnClickListener(this::onClickPrevButton);
         mQuizBinding.nextButton.setOnClickListener(this::onClickNextButton);
+    }
+
+    private void initQuizModel(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mQuizModel = (QuizModelImpl) savedInstanceState.getSerializable(QUIZ_MODEL);
+
+            setCheatingText();
+        }
+    }
+
+    private void updateViews() {
+        updateQuestion(mQuizModel.getQuestionResId());
     }
 
     @Override
@@ -108,7 +132,7 @@ public class QuizActivity extends AppCompatActivity {
 
         stashAnsweredQuestion();
 
-        showCheatingCondition();
+        setCheatingText();
     }
 
     private void onClickNextButton(View v) {
@@ -116,17 +140,7 @@ public class QuizActivity extends AppCompatActivity {
 
         stashAnsweredQuestion();
 
-        showCheatingCondition();
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void showCheatingCondition() {
-        if (mQuizModel.getMaxCountCheating() >= 1) {
-            mQuizBinding.countCheating.setText("Remain " + mQuizModel.getMaxCountCheating() + " times of cheating");
-        } else {
-            mQuizBinding.countCheating.setText("Cheating is over");
-            mQuizBinding.cheatButton.setVisibility(View.INVISIBLE);
-        }
+        setCheatingText();
     }
 
     private void onClickCheatButton(View v) {
